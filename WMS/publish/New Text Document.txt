@@ -1,0 +1,23 @@
+USE [WAREHOUSE]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_PurchaseReport]    Script Date: 06/07/2017 12:26:30 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[sp_PurchaseReport]
+	@purchase_no varchar(30)
+AS
+BEGIN
+	SELECT PurchaseNo as 'Purchase_No', PurchaseSupplierInvoiceNo as 'Supplier_Invoice_No', PurchaseDate as 'Purchase_Date',  Product.Code as 'Product_Code', Product.Name as 'Product_Name', PurchaseProductPrice as 'Purchase_Price', PurchaseQuantity as 'Product_Quantity',  (SELECT LocationMainName FROM LocationMain WHERE LocationMainID = PurchaseWarehouseID) as 'Warehouse', (SELECT LocationName FROM Location WHERE LocationID = PurchaseFloorID) as 'Floor' FROM Purchase, Product WHERE Purchase.PurchaseNo=@purchase_no AND Product.ID=Purchase.PurchaseProductID
+END
+
+GO
